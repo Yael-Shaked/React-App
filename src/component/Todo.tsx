@@ -9,7 +9,6 @@ type TodoItem = {
   text: string;
   details: string;
 };
-
 const Todo=()=> {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [inputValue, setInputValue] = useState('');
