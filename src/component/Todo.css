@@ -113,11 +113,10 @@
     color:white;
     text-align: center;
   }
-  
+
   .popup.show {
     visibility: visible;
   }
-  
   .todo-search-todo{
     color: #333;
     font-size: 15px;

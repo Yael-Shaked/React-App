@@ -56,7 +56,6 @@ const Todo=()=> {
   setTodos(updatedTodos);
   setEditingTodo(null); 
   setDetailInputValue('');
-
   }
   
  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
