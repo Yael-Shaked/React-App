@@ -56,6 +56,7 @@ const Todo=()=> {
   setEditingTodo(null); 
   setDetailInputValue('');
   }
+  
  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
@@ -65,11 +66,15 @@ const Todo=()=> {
   const toggleSearchInput = () => {
     setSearchVisible((prevSearchVisible) => !prevSearchVisible);
   };
+
+
   return (
+   
+ 
     <div className="todo-container">
         <div className="search-icon" onClick={toggleSearchInput}>
         <FaSearch />
-        <i className="fa-search"></i>
+        {/* <i className="fa-search"></i> */}
       </div>
       {searchVisible && (
       <input
@@ -129,3 +134,4 @@ const Todo=()=> {
  };
 export default Todo;
 
+ 
