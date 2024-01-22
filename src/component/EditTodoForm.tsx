@@ -1,38 +1,36 @@
 import React, { useState } from 'react';
-import { TodoItem } from './Todo2';
+import { TodoItem } from './Todo2';  
 
 interface EditTodoFormProps {
   todo: TodoItem;
-  onEdit: (updatedTodo: TodoItem) => void;
+  onEdit: (editedTodo: TodoItem) => void;
   onCancel: () => void;
 }
 
 const EditTodoForm: React.FC<EditTodoFormProps> = ({ todo, onEdit, onCancel }) => {
-  const [editedTodo, setEditedTodo] = useState(todo);
-
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedTodo({ ...editedTodo, text: e.target.value });
-  };
+  const [editedText, setEditedText] = useState(todo.text);
+  const [editedDetails, setEditedDetails] = useState(todo.details);
 
   const handleSave = () => {
+    const editedTodo: TodoItem = {
+      ...todo,
+      text: editedText,
+      details: editedDetails,
+    };
     onEdit(editedTodo);
   };
 
   return (
     <div>
-      <ul>
-        <li key={todo.id}>
-          <div className='flex mb-4 items-center'>
-            <p className="w-full text-grey-darkest">{todo.text} </p>
-            <button className="flex-no-shrink p-2 ml-2 border-2 rounded text-blue border-blue hover:text-white hover:bg-blue" onClick={handleSave}>
-              Save
-            </button>
-            <button className="flex-no-shrink p-2 ml-2 border-2 rounded text-grey border-grey hover:text-white hover:bg-grey" onClick={onCancel}>
-              Cancel
-            </button>
-          </div>
-        </li>
-      </ul>
+      <input
+        type="text"
+        value={editedText}
+        onChange={(e) => setEditedText(e.target.value)}
+      />
+      <textarea
+        value={editedDetails}
+        onChange={(e) => setEditedDetails(e.target.value)}
+      />
     </div>
   );
 };
