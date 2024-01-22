@@ -22,11 +22,13 @@ const EditTodoForm: React.FC<EditTodoFormProps> = ({ todo, onEdit, onCancel }) =
 
   return (
     <div>
+      aaaa
       <input
         type="text"
         value={editedText}
         onChange={(e) => setEditedText(e.target.value)}
       />
+      bbb
       <textarea
         value={editedDetails}
         onChange={(e) => setEditedDetails(e.target.value)}
