@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface EditPopupProps {
+interface PopupDialogProps {
   onClose: () => void;
   onSave: () => void;
   children: React.ReactNode;
 }
 
-const EditPopup: React.FC<EditPopupProps> = ({ onClose, onSave, children }) => {
+const PopupDialog: React.FC<PopupDialogProps> = ({ onClose, onSave, children }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-gray-800 opacity-50"></div>
@@ -31,4 +31,4 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onSave, children }) => {
   );
 };
 
-export default EditPopup;
+export {  PopupDialog } 

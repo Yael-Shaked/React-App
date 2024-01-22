@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import AddTodoForm from "./AddTodoForm";
 import RemoveTodoButton from "./RemoveTodoForm";
 import EditTodoForm from "./EditTodoForm";
-import EditPopup from "./EditPopup";
+import { TodoItem } from "../interfaces/TodoItem";
+import { PopupDialog } from "./PopupDialog";
 
-export type TodoItem = {
-  id: number;
-  text: string;
-  details: string;
-};
 const Todo = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [selectedTodo, setSelectedTodo] = useState<TodoItem | null>(null);
@@ -17,10 +13,14 @@ const Todo = () => {
   const onAddTodo = (TodoItem: TodoItem) => {
     setTodos([...todos, TodoItem]);
   };
-  const handleDeleteTodo = (id: number) => {
+  const handleDeleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
   const handleEditTodo = (editedTodo: TodoItem) => {
+
+    console.log("Before update:", editedTodo);
+
+
     setTodos((prevTodos) =>
       prevTodos.map((t) => (t.id === editedTodo.id ? editedTodo : t))
     );
@@ -46,7 +46,7 @@ const Todo = () => {
           {todos.map((todo) => (
             <li key={todo.id}>
               <div className="flex mb-4 items-center">
-                <p className="w-full text-grey-darkest">{todo.text} </p>
+                <p className="w-full text-grey-darkest">{todo.title} </p>
                 <RemoveTodoButton onRemove={(e) => handleDeleteTodo(todo.id)} />
                 <button
                   className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal"
@@ -61,7 +61,7 @@ const Todo = () => {
           ))}
         </ul>
         {isPopupOpen && selectedTodo && (
-          <EditPopup
+          <PopupDialog
             onClose={() => {
               setIsPopupOpen(false);
               setSelectedTodo(null);
@@ -71,12 +71,12 @@ const Todo = () => {
             <EditTodoForm
               todo={selectedTodo}
               onEdit={handleEditTodo}
-              onCancel={() => {
-                setIsPopupOpen(false);
-                setSelectedTodo(null);
-              }}
+              // onCancel={() => {
+              //   setIsPopupOpen(false);
+              //   setSelectedTodo(null);
+              // }}
             />
-          </EditPopup>
+          </PopupDialog>
         )}
       </div>
     </div>

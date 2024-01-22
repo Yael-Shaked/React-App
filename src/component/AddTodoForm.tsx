@@ -1,6 +1,6 @@
 import { type } from 'os';
 import React, { useState } from 'react';
-import { TodoItem } from './Todo2';  
+import { TodoItem } from '../interfaces/TodoItem';
 
 interface AddTodoFormProps {
   onAdd: (todo: TodoItem) => void;
@@ -13,9 +13,9 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }) => {
 
   const handleAddTodo = () => {
     const newTodo: TodoItem = {
-      id: Date.now(),
-      text: inputValue,
-      details: "",
+      id: Date.now().toString(),
+      title: inputValue,
+      description: "",
     };
     setInputValue("");
     onAdd(newTodo);

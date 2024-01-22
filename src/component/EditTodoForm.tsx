@@ -1,37 +1,49 @@
-import React, { useState } from 'react';
-import { TodoItem } from './Todo2';  
+import React, { useState } from "react";
+import { TodoItem } from "../interfaces/TodoItem";
 
 interface EditTodoFormProps {
   todo: TodoItem;
-  onEdit: (editedTodo: TodoItem) => void;
-  onCancel: () => void;
+  onEdit: (editedTodo: TodoItem) => void;  
 }
 
-const EditTodoForm: React.FC<EditTodoFormProps> = ({ todo, onEdit, onCancel }) => {
-  const [editedText, setEditedText] = useState(todo.text);
-  const [editedDetails, setEditedDetails] = useState(todo.details);
+const EditTodoForm: React.FC<EditTodoFormProps> = ({
+  todo,
+  onEdit,  
+}) => {
 
-  const handleSave = () => {
-    const editedTodo: TodoItem = {
-      ...todo,
-      text: editedText,
-      details: editedDetails,
-    };
-    onEdit(editedTodo);
-  };
+  const [todoItem, setTodoItem] = useState(todo);
+
+  const handleUpdateTitle = (title: string) => {
+
+    // update todo item 
+    // call onEdit
+
+    onEdit(todoItem);
+
+  }
+
+  const handleUpdateDescription = (description: string) => {
+
+    onEdit(todoItem);
+  } 
 
   return (
-    <div>
-      aaaa
+    <div className="flex flex-col">
+      <div className=" text-xl mb-4">
+        edit todo
+      </div>
+      <div className="mb-2 text-sm">title</div>
       <input
         type="text"
-        value={editedText}
-        onChange={(e) => setEditedText(e.target.value)}
+        className=" bg-slate-200 p-2 rounded-xl mb-2 text-gray-500 "
+        value={todoItem.title}
+        onChange={(e) => handleUpdateTitle(e.target.value)}
       />
-      bbb
+      <div className="mb-2 text-sm">description</div>
       <textarea
-        value={editedDetails}
-        onChange={(e) => setEditedDetails(e.target.value)}
+        value={todoItem.description}
+        className=" bg-slate-200 p-2 rounded-xl mb-2 "
+        onChange={(e) => handleUpdateDescription(e.target.value)}
       />
     </div>
   );
