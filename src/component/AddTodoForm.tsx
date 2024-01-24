@@ -1,23 +1,24 @@
 import { type } from 'os';
 import React, { useState } from 'react';
 import { TodoItem } from '../interfaces/TodoItem';
+import { v4 as uuidv4 } from 'uuid';
 
 interface AddTodoFormProps {
   onAdd: (todo: TodoItem) => void;
 }
 
 const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }) => {
-  const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
+  const [taskInput, setTaskInput] = useState('');
 
   const handleAddTodo = () => {
+    const [title, description] = taskInput.split('|').map((item) => item.trim());
+
     const newTodo: TodoItem = {
-      id: Date.now().toString(),
-      title: inputValue,
-      description: "",
+      id: uuidv4().toString(),
+      title: title,
+      description: description,
     };
-    setInputValue("");
+    setTaskInput('');
     onAdd(newTodo);
   }
   const handleKeyPress = (e: { key: string; }) => {
@@ -25,16 +26,15 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }) => {
       handleAddTodo();
     }
 };
-
 return (
   <>
       <div className="flex mt-4">
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="buy milk"
+          placeholder="buy milk | 3%"
         />
         <button
           className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal"
@@ -46,12 +46,4 @@ return (
   );
 };
 export default AddTodoForm;
-
-
-
-
-
-// <button className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red" onClick={() => handleDeleteTodo(todo.id)}>
-//                          Remove
-//                         </button>
-                        
+                     

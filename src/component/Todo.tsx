@@ -1,137 +1,75 @@
-import React, { useState } from 'react';
-import './Todo.css';
-import { FaTrash } from 'react-icons/fa';
-import { FaSave} from 'react-icons/fa';
-import { FaSearch} from 'react-icons/fa';
+import React, { useState } from "react";
+import AddTodoForm from "./AddTodoForm";
+import RemoveTodoButton from "./RemoveTodoForm";
+import EditTodoForm from "./EditTodoForm";
+import { TodoItem } from "../interfaces/TodoItem";
+import { PopupDialog } from "./PopupDialog";
 
-type TodoItem = {
-  id: number;
-  text: string;
-  details: string;
-};
-const Todo=()=> {
+const Todo = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
-  const [editingTodo, setEditingTodo] = useState<number | null>(null);
-  const [detailInputValue, setDetailInputValue] = useState('');
-  const [detailsOpen, setDetailsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchVisible, setSearchVisible] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState<TodoItem | null>(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const handleAddTodo=()=> {
-    if (inputValue.trim() === ''){
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 4000);
-    } else {
-    const newTodo = {
-      id: Date.now(),
-      text: inputValue,
-      details: ''
-    };
-    setTodos([...todos, newTodo]);
-    setInputValue('');
-  }
-  }
-  const startEditing=(todoId: number, currentDetails: string)=> {
-    setEditingTodo(todoId);
-    setDetailInputValue(currentDetails);
-    setDetailsOpen(true);
-  }
-  const handleDetailInputChange=(e: React.ChangeEvent<HTMLInputElement>)=> {
-    setDetailInputValue(e.target.value);
-  }
-  const handleDeleteTodo = (id: number) => {
+  const onAddTodo = (TodoItem: TodoItem) => {
+    setTodos([ TodoItem,...todos]);
+  };
+  const handleDeleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
-  }
-  const saveDetails = (todoId: number, e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    const updatedTodos = todos.map(todo => {
-      if (todo.id === todoId) {
-        return { ...todo, details: detailInputValue };
-      }
-      return todo;
-    });
-  setTodos(updatedTodos);
-  setEditingTodo(null); 
-  setDetailInputValue('');
-  }
+  };
   
- const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
+  const handleSaveChanges = (editedTodo: TodoItem) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === editedTodo.id ? editedTodo : todo
+    );
+    setTodos(updatedTodos);
+    setSelectedTodo(null);
   };
-  const filteredTodos = todos.filter((todo) =>
-  todo.text.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  const toggleSearchInput = () => {
-    setSearchVisible((prevSearchVisible) => !prevSearchVisible);
+  
+  const handleEditTodoItem = (item: TodoItem) => {
+    setIsPopupOpen(true);
+    setSelectedTodo(item);
   };
-
 
   return (
-   
- 
-    <div className="todo-container">
-        <div className="search-icon" onClick={toggleSearchInput}>
-        <FaSearch />
-        {/* <i className="fa-search"></i> */}
-      </div>
-      {searchVisible && (
-      <input
-        type="text"
-        placeholder="Search todo"
-        value={searchQuery}
-        onChange={handleSearch}
-        className="todo-search-todo"
-        />
-        )}
-        {searchQuery && filteredTodos.length === 0 && (
-          <div>No todos match your search.</div>
-        )}
-     {showPopup && (
-        <div className="popup">
-          No todo
+    <div className="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
+      <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
+        <div className="mb-4">
+          <h1 className="text-grey-darkest">Todo List</h1>
+          <AddTodoForm onAdd={onAddTodo} />
         </div>
-      )}
-      <h1 className="todo-header">Todo List</h1>
-      <div className="todo-input-container">
-        <input
-          className="todo-input"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Add a new todo"
-        />
-        <button className="todo-add-button" onClick={handleAddTodo}>Add Todo</button>
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id}>
+              <div className="flex mb-4 items-center">
+                <p className="w-full text-grey-darkest">{todo.title} </p>
+                <RemoveTodoButton onRemove={() => handleDeleteTodo(todo.id)} />
+
+                <button
+                  className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal"
+                  onClick={() =>{handleEditTodoItem(todo);}}>
+                  Edit
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        {isPopupOpen && selectedTodo && (
+          <PopupDialog
+            onClose={() => {
+              setIsPopupOpen(false);
+              setSelectedTodo(null);
+            }}
+            onSave={() => handleSaveChanges(selectedTodo)
+            }
+          >
+            <EditTodoForm
+              todo={selectedTodo}
+              onEdit={handleEditTodoItem}
+          />
+          </PopupDialog>
+        )}
       </div>
-      <ul>
-      {filteredTodos.map((todo) => (
-          <li key={todo.id}>
-            <div className='todo-list-value' onClick={() => startEditing(todo.id, todo.details)}>
-              {editingTodo === todo.id ? (
-                <div>
-                  <textarea
-                    value={detailInputValue}
-                    onChange={(e) => setDetailInputValue(e.target.value)}
-                    placeholder="Add details"
-                    className='todo-add-details'
-                  />
-                  <button className="todo-save-button" onClick={(e) => saveDetails(todo.id, e)}>
-                    <FaSave />
-                  </button>
-                </div>
-              ) : (
-                <span>{todo.text}</span>
-              )}
-            </div>
-            <button className="todo-delete-button" onClick={() => handleDeleteTodo(todo.id)}>
-              <FaTrash />
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
- };
+};
 export default Todo;
-
- 
