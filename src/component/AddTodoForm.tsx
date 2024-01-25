@@ -2,6 +2,7 @@ import { type } from 'os';
 import React, { useState } from 'react';
 import { TodoItem } from '../interfaces/TodoItem';
 import { v4 as uuidv4 } from 'uuid';
+import 'tailwindcss/tailwind.css';
 
 interface AddTodoFormProps {
   onAdd: (todo: TodoItem) => void;
@@ -37,8 +38,9 @@ return (
           placeholder="buy milk | 3%"
         />
         <button
-          className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal"
-          onClick={handleAddTodo}>
+       
+       className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-gray hover:bg-gray-100 hover:brightness-100 transition duration-1000"
+       onClick={handleAddTodo}>
           Add Todo
         </button>
       </div>

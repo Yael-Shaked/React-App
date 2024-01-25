@@ -14,14 +14,14 @@ const PopupDialog: React.FC<PopupDialogProps> = ({ onClose, onSave, children }) 
       <div className="z-10 bg-white p-8 rounded shadow-md">
 
         {children}
-        <div className="mt-4 flex justify-end">
+        <div className=" mt-4 flex items-center justify-center ">
           <button
-            className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 mr-2"
+            className="  px-6 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-200 mr-5"
             onClick={onSave}>
             Approval
           </button>
           <button
-            className="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-700"
+            className=" px-6 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-200"
             onClick={onClose}>
             Cancel
           </button>

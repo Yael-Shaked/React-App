@@ -1,15 +1,27 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
 
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}", // adjust this line based on where your files are
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
-}
+
+  plugins: [
+    function ({ addUtilities, theme }) {
+      const keyframes = {
+        '@keyframes brighten': {
+          '0%': { filter: 'brightness(1)' },
+          '100%': { filter: 'brightness(1.2)' },
+        },
+      };
+
+      addUtilities(keyframes, ['responsive', 'hover']);
+    },
+  ],
+
+  variants: {
+    extend: {
+      brightness: ['hover'],
+    },
+  },
+};

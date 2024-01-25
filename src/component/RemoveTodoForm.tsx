@@ -22,7 +22,7 @@ interface RemoveTodoButtonProps {
     <>
       <button
         onClick={handleRemove}
-        className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red">
+        className="mr-2 flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-gray hover:bg-gray-100 hover:brightness-100 transition duration-1000">
         Remove
       </button>
       {isPopupOpen && (

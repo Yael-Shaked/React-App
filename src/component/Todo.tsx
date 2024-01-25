@@ -34,22 +34,26 @@ const Todo = () => {
     <div className="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
       <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
         <div className="mb-4">
-          <h1 className="text-grey-darkest">Todo List</h1>
+          <h1 className="text-grey-darkest text-40px">Todo List</h1>
           <AddTodoForm onAdd={onAddTodo} />
         </div>
         <ul>
           {todos.map((todo) => (
-            <li key={todo.id}>
-              <div className="flex mb-4 items-center">
-                <p className="w-full text-grey-darkest">{todo.title} </p>
+            <li key={todo.id} className="mb-4"> 
+            <div className="flex items-centermt mt-2 justify-between">
+            <p className="text-grey-darkest flex-1">{todo.title}</p>
+           
                 <RemoveTodoButton onRemove={() => handleDeleteTodo(todo.id)} />
-
                 <button
-                  className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal"
-                  onClick={() =>{handleEditTodoItem(todo);}}>
+       className=" flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-gray hover:bg-gray-100 hover:brightness-100 transition duration-1000"
+       onClick={() =>{handleEditTodoItem(todo);}}>
                   Edit
                 </button>
               </div>
+              <div>
+              <p className="text-grey-darkest">{todo.description}</p>
+              </div>
+
             </li>
           ))}
         </ul>
